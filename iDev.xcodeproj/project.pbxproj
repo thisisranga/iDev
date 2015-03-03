@@ -42,6 +42,7 @@
 		E05CFA1D1AA561EA0067F77A /* iDevTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iDevTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E05CFA221AA561EA0067F77A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E05CFA231AA561EA0067F77A /* iDevTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = iDevTests.m; sourceTree = "<group>"; };
+		E0A662CD1AA61BA000A90022 /* iDev.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iDev.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +93,7 @@
 				E05CFA161AA561EA0067F77A /* LaunchScreen.xib */,
 				E05CFA0B1AA561EA0067F77A /* iDev.xcdatamodeld */,
 				E05CFA041AA561EA0067F77A /* Supporting Files */,
+				E05CFA2D1AA564590067F77A /* Resources */,
 			);
 			path = iDev;
 			sourceTree = "<group>";
@@ -101,6 +103,7 @@
 			children = (
 				E05CFA051AA561EA0067F77A /* Info.plist */,
 				E05CFA061AA561EA0067F77A /* main.m */,
+				E0A662CD1AA61BA000A90022 /* iDev.h */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -120,6 +123,13 @@
 				E05CFA221AA561EA0067F77A /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E05CFA2D1AA564590067F77A /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -347,6 +357,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				INFOPLIST_FILE = iDev/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -357,6 +368,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				INFOPLIST_FILE = iDev/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -416,6 +428,7 @@
 				E05CFA291AA561EA0067F77A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E05CFA2A1AA561EA0067F77A /* Build configuration list for PBXNativeTarget "iDevTests" */ = {
 			isa = XCConfigurationList;
@@ -424,6 +437,7 @@
 				E05CFA2C1AA561EA0067F77A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
