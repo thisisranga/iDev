@@ -20,6 +20,7 @@
 @property(nonatomic, retain) UIButton *_dismiss;
 @property(nonatomic, retain) UIActivityIndicatorView *_spinner;
 @property(nonatomic, retain) UIView *_errorContainerView;
+@property(nonatomic, retain) UILabel *_disclaimer;
 @end
 
 @implementation SignUpHandler
@@ -58,12 +59,17 @@
 -(UIView *)errorView:(NSString*)errorMessage;
 {
     [self._errorContainerView removeFromSuperview];
-    self._errorContainerView = [[UIView alloc] initWithFrame:CGRectMake(20,170,280,80)];
+    
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    float sWidth = screenRect.size.width;
+    float xyPadding = 20;
+    
+    self._errorContainerView = [[UIView alloc] initWithFrame:CGRectMake(xyPadding,170,sWidth-2*xyPadding,80)];
     self._errorContainerView.backgroundColor = [UIColor blackColor];
     [self._errorContainerView setAlpha:0.75];
     
     __dismiss = [UIButton buttonWithType:UIButtonTypeSystem];
-    __dismiss.frame = CGRectMake(125,10,30,30);
+    __dismiss.frame = CGRectMake((sWidth-2*xyPadding-30)/2,10,30,30);
     [__dismiss setBackgroundImage:[UIImage imageNamed:@"Close.png"] forState:UIControlStateNormal];
     [__dismiss setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     __dismiss.titleLabel.font = [UIFont systemFontOfSize:16.0];
@@ -71,7 +77,7 @@
     [self._errorContainerView addSubview:__dismiss];
 
     
-    UILabel *error = [[UILabel alloc] initWithFrame:CGRectMake(10,40,260,30)];
+    UILabel *error = [[UILabel alloc] initWithFrame:CGRectMake(10,40,sWidth-2*xyPadding-10,30)];
     error.text = errorMessage;
     error.textColor = [UIColor whiteColor];
     error.textAlignment = NSTextAlignmentCenter;
@@ -122,19 +128,24 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    float sWidth = screenRect.size.width;
+    float xyPadding = 10;
+    
     // Do any additional setup after loading the view, typically from a nib.
     __ContainerView = [[UIView alloc] initWithFrame:self.view.bounds];
     __ContainerView.backgroundColor = SIGN_UP_VIEW_BACKGROUND_COLOR;
     
     __dismiss = [UIButton buttonWithType:UIButtonTypeSystem];
-    __dismiss.frame = CGRectMake(280,20,30,30);
+    __dismiss.frame = CGRectMake(sWidth-40,20,30,30);
     [__dismiss setBackgroundImage:[UIImage imageNamed:@"Close.png"] forState:UIControlStateNormal];
     [__dismiss setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     __dismiss.titleLabel.font = [UIFont systemFontOfSize:16.0];
     [__dismiss addTarget:self action:@selector(dismiss:) forControlEvents:UIControlEventTouchUpInside];
     [__ContainerView addSubview:__dismiss];
     
-    __firstName = [[UITextField alloc] initWithFrame:CGRectMake(10,50,300,40)];
+    __firstName = [[UITextField alloc] initWithFrame:CGRectMake(xyPadding,50,sWidth-2*xyPadding,40)];
     __firstName.placeholder = @"First Name";
     __firstName.backgroundColor = SIGN_UP_TEXT_FEILD_BACKGROUND_COLOR;
     [__firstName becomeFirstResponder];
@@ -143,7 +154,7 @@
     __firstName.clearButtonMode = YES;
     [__ContainerView addSubview:__firstName];
     
-    __lastName = [[UITextField alloc] initWithFrame:CGRectMake(10,90,300,40)];
+    __lastName = [[UITextField alloc] initWithFrame:CGRectMake(xyPadding,90,sWidth-2*xyPadding,40)];
     __lastName.placeholder = @"Last Name";
     __lastName.backgroundColor = SIGN_UP_TEXT_FEILD_BACKGROUND_COLOR;
     __lastName.delegate = self;
@@ -151,7 +162,7 @@
     __lastName.clearButtonMode = YES;
     [__ContainerView addSubview:__lastName];
     
-    __emailID = [[UITextField alloc] initWithFrame:CGRectMake(10,130,300,40)];
+    __emailID = [[UITextField alloc] initWithFrame:CGRectMake(xyPadding,130,sWidth-2*xyPadding,40)];
     __emailID.placeholder = @"Email ID";
     __emailID.backgroundColor = SIGN_UP_TEXT_FEILD_BACKGROUND_COLOR;
     __emailID.delegate = self;
@@ -159,8 +170,8 @@
     __emailID.clearButtonMode = YES;
     [__ContainerView addSubview:__emailID];
     
-    __password = [[UITextField alloc] initWithFrame:CGRectMake(10,170,300,40)];
-    __password.placeholder = @"Create password";
+    __password = [[UITextField alloc] initWithFrame:CGRectMake(xyPadding,170,sWidth-2*xyPadding,40)];
+    __password.placeholder = @"Create Password";
     __password.backgroundColor = SIGN_UP_TEXT_FEILD_BACKGROUND_COLOR;
     __password.delegate = self;
     __password.autocorrectionType = UITextAutocorrectionTypeNo;
@@ -174,8 +185,17 @@
     __spinner.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhite;
     [__ContainerView addSubview:__spinner];
     
+    __disclaimer = [[UILabel alloc] initWithFrame:CGRectMake(2*xyPadding,220,sWidth-4*xyPadding,40)];
+    __disclaimer.text = @"By clicking Join Now, you aggree to iDev's User\n Aggreement, Privacy Policy, and Cookie Policy";
+    __disclaimer.font = [UIFont systemFontOfSize:12.0];
+    __disclaimer.textAlignment = NSTextAlignmentCenter;
+    __disclaimer.textColor = [UIColor whiteColor];
+    __disclaimer.lineBreakMode = YES;
+    __disclaimer.numberOfLines = 0;
+    [__ContainerView addSubview:__disclaimer];
+    
     __joinNow = [UIButton buttonWithType:UIButtonTypeSystem];
-    __joinNow.frame = CGRectMake(10,290,300,45);
+    __joinNow.frame = CGRectMake(xyPadding,290,sWidth-2*xyPadding,45);
     [__joinNow setBackgroundColor:SIGN_IN_BUTTON_BACKGROUND_COLOR];
     [__joinNow setTitle:JOIN_COMMUNITY_BUTTON_TITLE forState:UIControlStateNormal];
     [__joinNow setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
