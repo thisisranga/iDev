@@ -11,5 +11,13 @@
 
 #define JOIN_COMMUNITY_BUTTON_TITLE @"Join Now"
 #define BUTTON_LABEL_TITLE_COLOR [[NSString stringWithFormat:@"#2230b9"] getHexColor]
-
+#define JOIN_BUTTON_BACKGROUND_COLOR [[NSString stringWithFormat:@"#d3571a"] getHexColor]
+#define SIGN_IN_BUTTON_BACKGROUND_COLOR [[NSString stringWithFormat:@"#006699"] getHexColor]
 #endif
+
+//Useful gray Hex values
+/*
+#cacaca
+#666666
+#999999
+*/
