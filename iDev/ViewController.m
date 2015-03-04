@@ -21,7 +21,6 @@
 -(void)joinNow:(id)sender {
     SignUpHandler *signUpView = [[SignUpHandler alloc] init];
    [self presentViewController:signUpView animated:YES completion:nil];
-    NSLog(@"Thanks for registering with iDev Comminuty");
 }
 
 - (void)viewDidLoad {
