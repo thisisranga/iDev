@@ -17,7 +17,7 @@
 
 @implementation ViewController
 
--(void)subscribe:(id)sender {
+-(void)joinNow:(id)sender {
     NSLog(@"Thanks for registering with iDev Comminuty");
 }
 
@@ -46,7 +46,7 @@
     [__joinCommunity setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     __joinCommunity.titleLabel.font = [UIFont boldSystemFontOfSize:16.0];
     __joinCommunity.titleLabel.shadowColor = [UIColor blueColor];
-    [__joinCommunity addTarget:self action:@selector(subscribe:) forControlEvents:UIControlEventTouchUpInside];
+    [__joinCommunity addTarget:self action:@selector(joinNow:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:__joinCommunity];
     
     __signIn = [UIButton buttonWithType:UIButtonTypeSystem];
@@ -56,7 +56,7 @@
     [__signIn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     __signIn.titleLabel.font = [UIFont boldSystemFontOfSize:16.0];
     __signIn.titleLabel.shadowColor = [UIColor blueColor];
-    [__signIn addTarget:self action:@selector(subscribe:) forControlEvents:UIControlEventTouchUpInside];
+    [__signIn addTarget:self action:@selector(joinNow:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:__signIn];
     
     
