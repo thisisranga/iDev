@@ -12,9 +12,14 @@
 @interface ViewController ()
 @property(nonatomic, retain) UIImageView *_iDevTheme;
 @property(nonatomic, retain) UIButton *_joinCommunity;
+@property(nonatomic, retain) UIButton *_signIn;
 @end
 
 @implementation ViewController
+
+-(void)subscribe:(id)sender {
+    NSLog(@"Thanks for registering with iDev Comminuty");
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -24,14 +29,35 @@
     [super viewWillAppear:YES];
     
     __iDevTheme = [[UIImageView alloc] initWithFrame:self.view.bounds];
-    __iDevTheme.image = [UIImage imageNamed:@"LaunchImage"];
+    __iDevTheme.image = [UIImage imageNamed:@"Background_View.png"];
     [self.view addSubview:__iDevTheme];
     
-    __joinCommunity = [UIButton buttonWithType:UIButtonTypeCustom];
-    __joinCommunity.frame = CGRectMake(100,500,175,30);
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    float sWidth = screenRect.size.width;
+    float sHeight = screenRect.size.height;
+    float buttonWidth = 130;
+    float buttonHeight = 30;
+    float xyPadding = 10;
+    
+    __joinCommunity = [UIButton buttonWithType:UIButtonTypeSystem];
+    __joinCommunity.frame = CGRectMake(xyPadding,sHeight-125,buttonWidth,buttonHeight);
+    [__joinCommunity setBackgroundColor:[UIColor lightGrayColor]];
     [__joinCommunity setTitle:JOIN_COMMUNITY_BUTTON_TITLE forState:UIControlStateNormal];
-    [__joinCommunity setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [__joinCommunity setTitleColor:BUTTON_LABEL_TITLE_COLOR forState:UIControlStateNormal];
+    __joinCommunity.titleLabel.font = [UIFont boldSystemFontOfSize:16.0];
+    __joinCommunity.titleLabel.shadowColor = [UIColor blueColor];
+    [__joinCommunity addTarget:self action:@selector(subscribe:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:__joinCommunity];
+    
+    __signIn = [UIButton buttonWithType:UIButtonTypeSystem];
+    __signIn.frame = CGRectMake((sWidth-xyPadding)-buttonWidth,sHeight-125,buttonWidth,buttonHeight);
+    [__signIn setBackgroundColor:[UIColor lightGrayColor]];
+    [__signIn setTitle:@"Sign In" forState:UIControlStateNormal];
+    [__signIn setTitleColor:BUTTON_LABEL_TITLE_COLOR forState:UIControlStateNormal];
+    __signIn.titleLabel.font = [UIFont boldSystemFontOfSize:16.0];
+    __signIn.titleLabel.shadowColor = [UIColor blueColor];
+    [__signIn addTarget:self action:@selector(subscribe:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:__signIn];
     
     
 }
