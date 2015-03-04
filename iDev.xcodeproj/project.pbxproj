@@ -17,6 +17,7 @@
 		E05CFA241AA561EA0067F77A /* iDevTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E05CFA231AA561EA0067F77A /* iDevTests.m */; };
 		E0CE77A81AA6891D00F74A0C /* NSString+HexColor.m in Sources */ = {isa = PBXBuildFile; fileRef = E0CE77A71AA6891D00F74A0C /* NSString+HexColor.m */; };
 		E0CE77AA1AA69A7C00F74A0C /* Background_View.png in Resources */ = {isa = PBXBuildFile; fileRef = E0CE77A91AA69A7C00F74A0C /* Background_View.png */; };
+		E0CE77AD1AA69E3600F74A0C /* SignUpHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = E0CE77AC1AA69E3600F74A0C /* SignUpHandler.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +49,8 @@
 		E0CE77A61AA6891D00F74A0C /* NSString+HexColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+HexColor.h"; sourceTree = "<group>"; };
 		E0CE77A71AA6891D00F74A0C /* NSString+HexColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+HexColor.m"; sourceTree = "<group>"; };
 		E0CE77A91AA69A7C00F74A0C /* Background_View.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Background_View.png; sourceTree = "<group>"; };
+		E0CE77AB1AA69E3600F74A0C /* SignUpHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignUpHandler.h; sourceTree = "<group>"; };
+		E0CE77AC1AA69E3600F74A0C /* SignUpHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignUpHandler.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +96,8 @@
 				E05CFA091AA561EA0067F77A /* AppDelegate.m */,
 				E05CFA0E1AA561EA0067F77A /* ViewController.h */,
 				E05CFA0F1AA561EA0067F77A /* ViewController.m */,
+				E0CE77AB1AA69E3600F74A0C /* SignUpHandler.h */,
+				E0CE77AC1AA69E3600F74A0C /* SignUpHandler.m */,
 				E05CFA111AA561EA0067F77A /* Main.storyboard */,
 				E05CFA141AA561EA0067F77A /* Images.xcassets */,
 				E05CFA161AA561EA0067F77A /* LaunchScreen.xib */,
@@ -245,6 +250,7 @@
 				E05CFA0D1AA561EA0067F77A /* iDev.xcdatamodeld in Sources */,
 				E05CFA101AA561EA0067F77A /* ViewController.m in Sources */,
 				E0CE77A81AA6891D00F74A0C /* NSString+HexColor.m in Sources */,
+				E0CE77AD1AA69E3600F74A0C /* SignUpHandler.m in Sources */,
 				E05CFA071AA561EA0067F77A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
