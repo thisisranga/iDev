@@ -8,6 +8,7 @@
 
 #import "SignUpHandler.h"
 #import "iDev.h"
+#import <Parse/Parse.h>
 
 @interface SignUpHandler ()
 @property(nonatomic, retain) UIView *_ContainerView;
@@ -28,8 +29,7 @@
 - (void)briteValidateUserEmail
 {
     NSString *url = [NSString stringWithFormat:@"https://bpi.briteverify.com/emails.json?address=%@&apikey=13e28caa-9517-4241-9077-d283ba46992f",self._emailID.text];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:
-                                    [NSURL URLWithString:url]];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:1];
     [request setHTTPMethod:@"GET"];
     
     NSURLResponse *response;
@@ -40,26 +40,36 @@
     {
         NSDictionary *profile = [NSJSONSerialization JSONObjectWithData:result options:kNilOptions error:&error];
         // Did API return valid dataset?
-        if (profile != nil && [profile count] != 0)
+        if ([[profile objectForKey:@"status"] isEqualToString:@"valid"])
         {
+            [self checkUserExistence];
             NSLog(@"Email id Verification response = %@", profile);
-            NSLog(@"Thanks for registering with iDev Community");
+        }
+        else
+        {
+            
+            [self.view addSubview:[self errorView:@"Invalid email id"]];
+        
+            
         }
         
     }
-    else {
+    else
+    {
 #if DEBUG
         NSLog(@"Profile API Error = %@", error);
 #endif
+        [self.view addSubview:[self errorView:@"Unable to verify email id, please use other email id."]];
     }
 }
--(void)dismissErrorView:(id)sender {
+-(void)dismissErrorView:(id)sender
+{
     [self._errorContainerView removeFromSuperview];
 }
 -(UIView *)errorView:(NSString*)errorMessage;
 {
     [self._errorContainerView removeFromSuperview];
-    
+    [self._spinner stopAnimating];
     CGRect screenRect = [[UIScreen mainScreen] bounds];
     float sWidth = screenRect.size.width;
     float xyPadding = 20;
@@ -72,7 +82,7 @@
     __dismiss.frame = CGRectMake((sWidth-2*xyPadding-30)/2,10,30,30);
     [__dismiss setBackgroundImage:[UIImage imageNamed:@"Close.png"] forState:UIControlStateNormal];
     [__dismiss setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    __dismiss.titleLabel.font = [UIFont systemFontOfSize:16.0];
+    __dismiss.titleLabel.font = [UIFont systemFontOfSize:14.0];
     [__dismiss addTarget:self action:@selector(dismissErrorView:) forControlEvents:UIControlEventTouchUpInside];
     [self._errorContainerView addSubview:__dismiss];
 
@@ -107,18 +117,68 @@
     }
     return YES;
 }
+-(void)saveUserProfileInfo {
+    PFObject *iDevUserProfileInfo = [PFObject objectWithClassName:@"ProfileInfo"];
+    iDevUserProfileInfo[@"emailId"] = self._emailID.text;
+    iDevUserProfileInfo[@"firstName"] = self._firstName.text;
+    iDevUserProfileInfo[@"lastName"] = self._lastName.text;
+    iDevUserProfileInfo[@"password"] = self._password.text;
+    [iDevUserProfileInfo saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (succeeded) {
+            [self.view addSubview:[self errorView:@"Regsitration Successful"]];
+            [self reloadInputViews];
+        } else {
+            // There was a problem, check error.description
+            [self errorView:@"Registration Failure, please try again."];
+        }
+}];
+}
+-(void)checkUserExistence
+{
+    PFQuery *query = [PFQuery queryWithClassName:@"ProfileInfo"];
+    [query whereKey:@"emailId" equalTo:self._emailID.text];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (!error) {
+            // The find succeeded.
+            NSLog(@"Successfully retrieved %lu scores.", (unsigned long)objects.count);
+            if (objects.count == 0)
+            {
+                 [self saveUserProfileInfo];
+            }
+            else
+            {
+                [self.view addSubview:[self errorView:@"This email id is already registered with iDev"]];
+                [self reloadInputViews];
+                
+            }
+           
+        } else {
+            // Log details of the failure
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
+        }
+    }];
+}
+-(void)reloadInputViews {
+    [self._spinner stopAnimating];
+    self._firstName.text = @"";
+    self._lastName.text = @"";
+    self._emailID.text = @"";
+    self._password.text = @"";
+    [self._firstName becomeFirstResponder];
+}
 -(void)submit:(id)sender
 {
-    if ([self validateInputs]) {
+    if ([self validateInputs])
+    {
         [self._spinner startAnimating];
-        // Dispatching the BriteValidate API call as asychronous call to make UI responsive.
         dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             [self briteValidateUserEmail];
             dispatch_async( dispatch_get_main_queue(), ^{
-                [self._spinner stopAnimating];
+                nil;
             });
         });
 
+        
     }
 }
 -(void)dismiss:(id)sender {
@@ -176,10 +236,11 @@
     __password.delegate = self;
     __password.autocorrectionType = UITextAutocorrectionTypeNo;
     __password.clearButtonMode = YES;
+    __password.secureTextEntry = YES;
     [__ContainerView addSubview:__password];
     
     __spinner = [[UIActivityIndicatorView alloc]
-                 initWithFrame:CGRectMake(145,240,20,20)];
+                 initWithFrame:CGRectMake((sWidth-20)/2,260,20,20)];
     [__spinner setActivityIndicatorViewStyle:UIActivityIndicatorViewStyleWhite];
     __spinner.color = [UIColor whiteColor];
     __spinner.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhite;
