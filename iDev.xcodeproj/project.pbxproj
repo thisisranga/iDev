@@ -20,6 +20,8 @@
 		E00040091AA7D5C700BAC4FF /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E00040081AA7D5C700BAC4FF /* SystemConfiguration.framework */; };
 		E000400B1AA7D5D200BAC4FF /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E000400A1AA7D5D200BAC4FF /* libz.dylib */; };
 		E000400D1AA7D5E700BAC4FF /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E000400C1AA7D5E700BAC4FF /* libsqlite3.dylib */; };
+		E00EF32F1AA94B1A008BFCE4 /* SignInController.m in Sources */ = {isa = PBXBuildFile; fileRef = E00EF32E1AA94B1A008BFCE4 /* SignInController.m */; };
+		E00EF3311AA96758008BFCE4 /* Networking.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E00EF3301AA96758008BFCE4 /* Networking.jpg */; };
 		E05CFA071AA561EA0067F77A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E05CFA061AA561EA0067F77A /* main.m */; };
 		E05CFA0A1AA561EA0067F77A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E05CFA091AA561EA0067F77A /* AppDelegate.m */; };
 		E05CFA0D1AA561EA0067F77A /* iDev.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E05CFA0B1AA561EA0067F77A /* iDev.xcdatamodeld */; };
@@ -58,6 +60,9 @@
 		E00040081AA7D5C700BAC4FF /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		E000400A1AA7D5D200BAC4FF /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		E000400C1AA7D5E700BAC4FF /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		E00EF32D1AA94B1A008BFCE4 /* SignInController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignInController.h; sourceTree = "<group>"; };
+		E00EF32E1AA94B1A008BFCE4 /* SignInController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignInController.m; sourceTree = "<group>"; };
+		E00EF3301AA96758008BFCE4 /* Networking.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Networking.jpg; sourceTree = "<group>"; };
 		E05CFA011AA561E90067F77A /* iDev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iDev.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E05CFA051AA561EA0067F77A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E05CFA061AA561EA0067F77A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -150,6 +155,8 @@
 				E05CFA091AA561EA0067F77A /* AppDelegate.m */,
 				E05CFA0E1AA561EA0067F77A /* ViewController.h */,
 				E05CFA0F1AA561EA0067F77A /* ViewController.m */,
+				E00EF32D1AA94B1A008BFCE4 /* SignInController.h */,
+				E00EF32E1AA94B1A008BFCE4 /* SignInController.m */,
 				E0CE77AB1AA69E3600F74A0C /* SignUpHandler.h */,
 				E0CE77AC1AA69E3600F74A0C /* SignUpHandler.m */,
 				E05CFA111AA561EA0067F77A /* Main.storyboard */,
@@ -194,6 +201,7 @@
 		E05CFA2D1AA564590067F77A /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				E00EF3301AA96758008BFCE4 /* Networking.jpg */,
 				E0A12DD91AA7B613002E3AA8 /* Close.png */,
 				E0CE77A91AA69A7C00F74A0C /* Background_View.png */,
 			);
@@ -285,6 +293,7 @@
 				E05CFA131AA561EA0067F77A /* Main.storyboard in Resources */,
 				E05CFA181AA561EA0067F77A /* LaunchScreen.xib in Resources */,
 				E05CFA151AA561EA0067F77A /* Images.xcassets in Resources */,
+				E00EF3311AA96758008BFCE4 /* Networking.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -303,6 +312,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E05CFA0A1AA561EA0067F77A /* AppDelegate.m in Sources */,
+				E00EF32F1AA94B1A008BFCE4 /* SignInController.m in Sources */,
 				E05CFA0D1AA561EA0067F77A /* iDev.xcdatamodeld in Sources */,
 				E05CFA101AA561EA0067F77A /* ViewController.m in Sources */,
 				E0CE77A81AA6891D00F74A0C /* NSString+HexColor.m in Sources */,

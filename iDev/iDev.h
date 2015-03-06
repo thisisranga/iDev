@@ -10,6 +10,7 @@
 #define iDev_iDev_h
 
 #define JOIN_COMMUNITY_BUTTON_TITLE @"Join Now"
+#define SIGN_IN_BUTTON_TITLE @"Sign In"
 #define JOIN_BUTTON_BACKGROUND_COLOR [[NSString stringWithFormat:@"#d3571a"] getHexColor]
 #define SIGN_IN_BUTTON_BACKGROUND_COLOR [[NSString stringWithFormat:@"#3299CC"] getHexColor]
 #define SIGN_UP_VIEW_BACKGROUND_COLOR [[NSString stringWithFormat:@"#666666"] getHexColor]

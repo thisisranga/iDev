@@ -7,8 +7,8 @@
 //
 
 #import "SignUpHandler.h"
-#import "iDev.h"
 #import <Parse/Parse.h>
+#import "iDev.h"
 
 @interface SignUpHandler ()
 @property(nonatomic, retain) UIView *_ContainerView;
@@ -94,8 +94,20 @@
     [self._errorContainerView addSubview:error];
     return self._errorContainerView;
 }
+
+-(BOOL) NSStringIsValidEmail:(NSString *)emailString
+{
+    BOOL strictFilter = YES;
+    NSString *stricterFilterString = @"[A-Z0-9a-z\\._%+-]+@([A-Za-z0-9-]+\\.)+[A-Za-z]{2,4}";
+    NSString *laxString = @".+@([A-Za-z0-9-]+\\.)+[A-Za-z]{2}[A-Za-z]*";
+    NSString *emailRegex = strictFilter ? stricterFilterString : laxString;
+    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
+    return [emailTest evaluateWithObject:emailString];
+}
+
 -(BOOL)validateInputs
 {
+    BOOL isEmailIdValid = [self NSStringIsValidEmail:self._emailID.text];
     if (self._firstName.text.length == 0)
     {
         [self.view addSubview:[self errorView:@"Please enter your first name"]];
@@ -106,9 +118,9 @@
         [self.view addSubview:[self errorView:@"Please enter your last name"]];
         return NO;
     }
-    else if (self._emailID.text.length == 0)
+    else if (self._emailID.text.length == 0 || !isEmailIdValid)
     {
-        [self.view addSubview:[self errorView:@"Please enter your email"]];
+        [self.view addSubview:[self errorView:@"Please enter a valid email"]];
         return NO;
     }
     else if (self._password.text.length == 0) {
