@@ -8,9 +8,13 @@
 
 #import "SignInController.h"
 #import <Parse/Parse.h>
+#import "SWRevealViewController.h"
+#import "MenuViewController.h"
+#import "HomeViewController.h"
+#import "AppDelegate.h"
 #import "iDev.h"
 
-@interface SignInController ()
+@interface SignInController () <SWRevealViewControllerDelegate>
 @property(nonatomic, retain) UIView *_ContainerView;
 @property(nonatomic, retain) UITextField *_emailID;
 @property(nonatomic, retain) UITextField *_password;
@@ -22,6 +26,21 @@
 
 @implementation SignInController
 
+-(void)welcomeToiDev {
+    MenuViewController *_menuViewController = [[MenuViewController alloc] init];
+    HomeViewController *_homeViewController = [[HomeViewController alloc] init];
+    UINavigationController *frontNavigationController = [[UINavigationController alloc] initWithRootViewController:_homeViewController];
+    frontNavigationController.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
+    UINavigationController *rearNavigationController = [[UINavigationController alloc] initWithRootViewController:_menuViewController];
+    SWRevealViewController *_revealViewController = [[SWRevealViewController alloc]
+                                                     initWithRearViewController:rearNavigationController  frontViewController:frontNavigationController];
+    _revealViewController.rightViewController = nil;
+    _revealViewController.delegate = self;
+    
+    AppDelegate *appDel = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+    [appDel.window setRootViewController:_revealViewController];
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
 -(void)dismiss:(id)sender {
     
     [self.view endEditing:YES];
@@ -97,10 +116,10 @@
             }
             else
             {
-                NSLog(@"Parse object Id = %@", [objects.lastObject objectForKey:@"password"]);
                 NSString *currentPassword = [objects.lastObject objectForKey:@"password"];
                 if ([currentPassword isEqualToString:self._password.text]) {
                     [self.view addSubview:[self errorView:@"Sign In Valid"]];
+                    [self welcomeToiDev];
                 }
                 else
                 {
@@ -154,6 +173,7 @@
     
     __emailID = [[UITextField alloc] initWithFrame:CGRectMake(xyPadding,60,sWidth-2*xyPadding,40)];
     __emailID.placeholder = @"Email ID";
+    __emailID.text = @"ranchinnu18@gmail.com";
     __emailID.backgroundColor = SIGN_UP_TEXT_FEILD_BACKGROUND_COLOR;
     __emailID.delegate = self;
     __emailID.autocorrectionType = UITextAutocorrectionTypeNo;
@@ -163,6 +183,7 @@
     
     __password = [[UITextField alloc] initWithFrame:CGRectMake(xyPadding,100,sWidth-2*xyPadding,40)];
     __password.placeholder = @"Enter Password";
+    __password.text = @"ranga123";
     __password.backgroundColor = SIGN_UP_TEXT_FEILD_BACKGROUND_COLOR;
     __password.delegate = self;
     __password.autocorrectionType = UITextAutocorrectionTypeNo;

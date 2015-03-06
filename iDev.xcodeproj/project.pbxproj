@@ -22,6 +22,11 @@
 		E000400D1AA7D5E700BAC4FF /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E000400C1AA7D5E700BAC4FF /* libsqlite3.dylib */; };
 		E00EF32F1AA94B1A008BFCE4 /* SignInController.m in Sources */ = {isa = PBXBuildFile; fileRef = E00EF32E1AA94B1A008BFCE4 /* SignInController.m */; };
 		E00EF3311AA96758008BFCE4 /* Networking.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E00EF3301AA96758008BFCE4 /* Networking.jpg */; };
+		E03AB0D11AAA27930098EBBC /* reveal-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = E03AB0CF1AAA27930098EBBC /* reveal-icon.png */; };
+		E03AB0D21AAA27930098EBBC /* reveal-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E03AB0D01AAA27930098EBBC /* reveal-icon@2x.png */; };
+		E04C365B1AA9FE5C00339484 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E04C365A1AA9FE5C00339484 /* SWRevealViewController.m */; };
+		E04C365E1AAA016F00339484 /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E04C365D1AAA016F00339484 /* MenuViewController.m */; };
+		E04C36611AAA01A000339484 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E04C36601AAA01A000339484 /* HomeViewController.m */; };
 		E05CFA071AA561EA0067F77A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E05CFA061AA561EA0067F77A /* main.m */; };
 		E05CFA0A1AA561EA0067F77A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E05CFA091AA561EA0067F77A /* AppDelegate.m */; };
 		E05CFA0D1AA561EA0067F77A /* iDev.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E05CFA0B1AA561EA0067F77A /* iDev.xcdatamodeld */; };
@@ -63,6 +68,14 @@
 		E00EF32D1AA94B1A008BFCE4 /* SignInController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignInController.h; sourceTree = "<group>"; };
 		E00EF32E1AA94B1A008BFCE4 /* SignInController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignInController.m; sourceTree = "<group>"; };
 		E00EF3301AA96758008BFCE4 /* Networking.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Networking.jpg; sourceTree = "<group>"; };
+		E03AB0CF1AAA27930098EBBC /* reveal-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reveal-icon.png"; sourceTree = "<group>"; };
+		E03AB0D01AAA27930098EBBC /* reveal-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reveal-icon@2x.png"; sourceTree = "<group>"; };
+		E04C36591AA9FE5C00339484 /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
+		E04C365A1AA9FE5C00339484 /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
+		E04C365C1AAA016F00339484 /* MenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuViewController.h; sourceTree = "<group>"; };
+		E04C365D1AAA016F00339484 /* MenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuViewController.m; sourceTree = "<group>"; };
+		E04C365F1AAA01A000339484 /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
+		E04C36601AAA01A000339484 /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
 		E05CFA011AA561E90067F77A /* iDev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iDev.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E05CFA051AA561EA0067F77A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E05CFA061AA561EA0067F77A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -117,6 +130,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E04C36581AA9FE5C00339484 /* SWRevealViewController */ = {
+			isa = PBXGroup;
+			children = (
+				E04C36591AA9FE5C00339484 /* SWRevealViewController.h */,
+				E04C365A1AA9FE5C00339484 /* SWRevealViewController.m */,
+			);
+			path = SWRevealViewController;
+			sourceTree = "<group>";
+		};
 		E05CF9F81AA561E90067F77A = {
 			isa = PBXGroup;
 			children = (
@@ -151,6 +173,7 @@
 		E05CFA031AA561E90067F77A /* iDev */ = {
 			isa = PBXGroup;
 			children = (
+				E04C36581AA9FE5C00339484 /* SWRevealViewController */,
 				E05CFA081AA561EA0067F77A /* AppDelegate.h */,
 				E05CFA091AA561EA0067F77A /* AppDelegate.m */,
 				E05CFA0E1AA561EA0067F77A /* ViewController.h */,
@@ -159,6 +182,10 @@
 				E00EF32E1AA94B1A008BFCE4 /* SignInController.m */,
 				E0CE77AB1AA69E3600F74A0C /* SignUpHandler.h */,
 				E0CE77AC1AA69E3600F74A0C /* SignUpHandler.m */,
+				E04C365C1AAA016F00339484 /* MenuViewController.h */,
+				E04C365D1AAA016F00339484 /* MenuViewController.m */,
+				E04C365F1AAA01A000339484 /* HomeViewController.h */,
+				E04C36601AAA01A000339484 /* HomeViewController.m */,
 				E05CFA111AA561EA0067F77A /* Main.storyboard */,
 				E05CFA141AA561EA0067F77A /* Images.xcassets */,
 				E05CFA161AA561EA0067F77A /* LaunchScreen.xib */,
@@ -201,6 +228,8 @@
 		E05CFA2D1AA564590067F77A /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				E03AB0CF1AAA27930098EBBC /* reveal-icon.png */,
+				E03AB0D01AAA27930098EBBC /* reveal-icon@2x.png */,
 				E00EF3301AA96758008BFCE4 /* Networking.jpg */,
 				E0A12DD91AA7B613002E3AA8 /* Close.png */,
 				E0CE77A91AA69A7C00F74A0C /* Background_View.png */,
@@ -292,7 +321,9 @@
 				E0CE77AA1AA69A7C00F74A0C /* Background_View.png in Resources */,
 				E05CFA131AA561EA0067F77A /* Main.storyboard in Resources */,
 				E05CFA181AA561EA0067F77A /* LaunchScreen.xib in Resources */,
+				E03AB0D21AAA27930098EBBC /* reveal-icon@2x.png in Resources */,
 				E05CFA151AA561EA0067F77A /* Images.xcassets in Resources */,
+				E03AB0D11AAA27930098EBBC /* reveal-icon.png in Resources */,
 				E00EF3311AA96758008BFCE4 /* Networking.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -312,8 +343,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				E05CFA0A1AA561EA0067F77A /* AppDelegate.m in Sources */,
+				E04C365E1AAA016F00339484 /* MenuViewController.m in Sources */,
 				E00EF32F1AA94B1A008BFCE4 /* SignInController.m in Sources */,
+				E04C36611AAA01A000339484 /* HomeViewController.m in Sources */,
 				E05CFA0D1AA561EA0067F77A /* iDev.xcdatamodeld in Sources */,
+				E04C365B1AA9FE5C00339484 /* SWRevealViewController.m in Sources */,
 				E05CFA101AA561EA0067F77A /* ViewController.m in Sources */,
 				E0CE77A81AA6891D00F74A0C /* NSString+HexColor.m in Sources */,
 				E0CE77AD1AA69E3600F74A0C /* SignUpHandler.m in Sources */,
