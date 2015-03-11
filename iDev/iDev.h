@@ -15,6 +15,7 @@
 #define SIGN_IN_BUTTON_BACKGROUND_COLOR [[NSString stringWithFormat:@"#3299CC"] getHexColor]
 #define SIGN_UP_VIEW_BACKGROUND_COLOR [[NSString stringWithFormat:@"#666666"] getHexColor]
 #define SIGN_UP_TEXT_FEILD_BACKGROUND_COLOR [[NSString stringWithFormat:@"#e5e5e5"] getHexColor]
+#define HOME_VIEW_TOOL_BAR_COLOR [[NSString stringWithFormat:@"#e7e7e7"] getHexColor]
 
 #endif
 

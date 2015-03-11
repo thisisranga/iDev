@@ -16,7 +16,7 @@
 
 @interface SignInController () <SWRevealViewControllerDelegate>
 @property(nonatomic, retain) UIView *_ContainerView;
-@property(nonatomic, retain) UITextField *_emailID;
+@property(nonatomic, retain) UITextField *_userName;
 @property(nonatomic, retain) UITextField *_password;
 @property(nonatomic, retain) UIButton *_SignIn;
 @property(nonatomic, retain) UIButton *_dismiss;
@@ -26,8 +26,10 @@
 
 @implementation SignInController
 
--(void)welcomeToiDev {
+-(void)welcomeToiDev:(NSString*)objects {
+    [self.view endEditing:YES];
     MenuViewController *_menuViewController = [[MenuViewController alloc] init];
+    _menuViewController._profileInfo = objects;
     HomeViewController *_homeViewController = [[HomeViewController alloc] init];
     UINavigationController *frontNavigationController = [[UINavigationController alloc] initWithRootViewController:_homeViewController];
     frontNavigationController.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
@@ -57,9 +59,7 @@
 }
 -(BOOL)validateInputs
 {
-    BOOL isEmailIdValid = [self NSStringIsValidEmail:self._emailID.text];
-    
-   if (self._emailID.text.length == 0 || !isEmailIdValid)
+   if (self._userName.text.length == 0)
     {
         [self.view addSubview:[self errorView:@"Please enter a valid email"]];
         return NO;
@@ -104,35 +104,50 @@
 }
 -(void)checkUserExistence
 {
-    PFQuery *query = [PFQuery queryWithClassName:@"ProfileInfo"];
-    [query whereKey:@"emailId" equalTo:self._emailID.text];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+//    PFQuery *query = [PFQuery queryWithClassName:@"ProfileInfo"];
+//    [query whereKey:@"emailId" equalTo:self._emailID.text];
+//    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+//        if (!error) {
+//            // The find succeeded.
+//            NSLog(@"Successfully retrieved %lu scores.", (unsigned long)objects.count);
+//            if (objects.count == 0)
+//            {
+//               [self.view addSubview:[self errorView:@"Invalid email id or password"]];
+//            }
+//            else
+//            {
+//                NSString *currentPassword = [objects.lastObject objectForKey:@"password"];
+//                if ([currentPassword isEqualToString:self._password.text]) {
+//                    [self.view addSubview:[self errorView:@"Sign In Valid"]];
+//                    [self welcomeToiDev:objects];
+//                }
+//                else
+//                {
+//                    [self.view addSubview:[self errorView:@"Invalid email id or password"]];
+//                }
+//            }
+//            
+//        } else {
+//            // Log details of the failure
+//            NSLog(@"Error: %@ %@", error, [error userInfo]);
+//            [self.view addSubview:[self errorView:@"We are experiencing some problems, please try again later"]];
+//        }
+//    }];
+    
+    [PFUser logInWithUsernameInBackground:self._userName.text password:self._password.text block:^(PFUser *user, NSError *error) {
         if (!error) {
-            // The find succeeded.
-            NSLog(@"Successfully retrieved %lu scores.", (unsigned long)objects.count);
-            if (objects.count == 0)
-            {
-               [self.view addSubview:[self errorView:@"Invalid email id or password"]];
-            }
-            else
-            {
-                NSString *currentPassword = [objects.lastObject objectForKey:@"password"];
-                if ([currentPassword isEqualToString:self._password.text]) {
-                    [self.view addSubview:[self errorView:@"Sign In Valid"]];
-                    [self welcomeToiDev];
-                }
-                else
-                {
-                    [self.view addSubview:[self errorView:@"Invalid email id or password"]];
-                }
-            }
+            //if succeeded.
+            NSLog(@"email id - %@", user.email);
+            NSLog(@"PFUser = %@", user);
             
-        } else {
-            // Log details of the failure
-            NSLog(@"Error: %@ %@", error, [error userInfo]);
-            [self.view addSubview:[self errorView:@"We are experiencing some problems, please try again later"]];
+            [self welcomeToiDev:user.email];
+        }
+        else {
+            [self.view addSubview:[self errorView:@"Invaid user name or password"]];
         }
     }];
+  
+    
 }
 
 -(void)submit:(id)sender
@@ -160,7 +175,7 @@
     
     // Do any additional setup after loading the view, typically from a nib.
     __ContainerView = [[UIView alloc] initWithFrame:self.view.bounds];
-    __ContainerView.backgroundColor = SIGN_UP_VIEW_BACKGROUND_COLOR;
+    __ContainerView.backgroundColor = [UIColor grayColor];
     
     __dismiss = [UIButton buttonWithType:UIButtonTypeSystem];
     __dismiss.frame = CGRectMake(sWidth-40,20,30,30);
@@ -171,19 +186,18 @@
     [__ContainerView addSubview:__dismiss];
 
     
-    __emailID = [[UITextField alloc] initWithFrame:CGRectMake(xyPadding,60,sWidth-2*xyPadding,40)];
-    __emailID.placeholder = @"Email ID";
-    __emailID.text = @"ranchinnu18@gmail.com";
-    __emailID.backgroundColor = SIGN_UP_TEXT_FEILD_BACKGROUND_COLOR;
-    __emailID.delegate = self;
-    __emailID.autocorrectionType = UITextAutocorrectionTypeNo;
-    __emailID.clearButtonMode = YES;
-    [__emailID becomeFirstResponder];
-    [__ContainerView addSubview:__emailID];
+    __userName = [[UITextField alloc] initWithFrame:CGRectMake(xyPadding,60,sWidth-2*xyPadding,40)];
+    __userName.placeholder = @"Enter your user name";
+    __userName.backgroundColor = SIGN_UP_TEXT_FEILD_BACKGROUND_COLOR;
+    __userName.delegate = self;
+    __userName.autocorrectionType = UITextAutocorrectionTypeNo;
+    __userName.autocapitalizationType = NO;
+    __userName.clearButtonMode = YES;
+    [__userName becomeFirstResponder];
+    [__ContainerView addSubview:__userName];
     
-    __password = [[UITextField alloc] initWithFrame:CGRectMake(xyPadding,100,sWidth-2*xyPadding,40)];
-    __password.placeholder = @"Enter Password";
-    __password.text = @"ranga123";
+    __password = [[UITextField alloc] initWithFrame:CGRectMake(xyPadding,101,sWidth-2*xyPadding,40)];
+    __password.placeholder = @"Enter your password";
     __password.backgroundColor = SIGN_UP_TEXT_FEILD_BACKGROUND_COLOR;
     __password.delegate = self;
     __password.autocorrectionType = UITextAutocorrectionTypeNo;

@@ -46,7 +46,7 @@
     float buttonHeight = 45;
     float xyPadding = 10;
     
-    __iDevEssence = [[UIImageView alloc] initWithFrame:CGRectMake(2*xyPadding,220,335,335)];
+    __iDevEssence = [[UIImageView alloc] initWithFrame:CGRectMake(2*xyPadding,180,sWidth-2*xyPadding,300)];
     __iDevEssence.image = [UIImage imageNamed:@"Networking.jpg"];
     [self.view addSubview:__iDevEssence];
     

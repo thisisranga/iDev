@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface HomeViewController : UITableViewController
-
+#import <MessageUI/MessageUI.h>
+#import "AppDelegate.h"
+@interface HomeViewController : UIViewController <UITextFieldDelegate, MFMessageComposeViewControllerDelegate, RemoteNotificationsDelegate>
 @end

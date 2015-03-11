@@ -7,7 +7,8 @@
 //
 
 #import "MenuViewController.h"
-
+#import <Parse/Parse.h>
+#import "iDev.h"
 @interface MenuViewController ()
 
 @end
@@ -22,6 +23,9 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
+    self.navigationItem.title = @"Members";
+    self.navigationController.navigationBar.barTintColor = HOME_VIEW_TOOL_BAR_COLOR;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -34,13 +38,63 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
 
     // Return the number of sections.
-    return 1;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
     // Return the number of rows in the section.
-    return 10;
+    if (section == 0)
+        return 1;
+    
+    return 5;
+}
+
+- (CGFloat)tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    switch (indexPath.section){
+        case 0:
+            if(indexPath.row ==0)
+                return 150.0;
+            else
+                return 40.0;
+        case 1:
+                return 40;
+        default:
+            return 40.0;
+    }
+}
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    NSString *sectionName;
+    switch (section)
+    {
+        case 0:
+            sectionName = @"Your Profile";
+            break;
+        case 1:
+            sectionName = @"Others";
+            break;
+        default:
+            sectionName = @"";
+            break;
+    }
+    return sectionName;
+}
+- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
+{
+    // Background color
+    view.tintColor = SIGN_IN_BUTTON_BACKGROUND_COLOR;
+    
+    // Text Color
+    UITableViewHeaderFooterView *header = (UITableViewHeaderFooterView *)view;
+    [header.textLabel setTextColor:[UIColor whiteColor]];
+    
+    // Another way to set the background color
+    // Note: does not preserve gradient effect of original header
+    // header.contentView.backgroundColor = [UIColor blackColor];
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 40;
 }
 
 
@@ -52,6 +106,29 @@
     if (cell==nil)
     {
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+    }
+    switch (indexPath.section)
+    {
+        case 0:
+            if (indexPath.row ==0)
+            {
+                UIImageView *_profileImage = [[UIImageView alloc] initWithFrame:CGRectMake(10,10,120,100)];
+                _profileImage.backgroundColor = [UIColor grayColor];
+                _profileImage.image = [UIImage imageNamed:@"profile.png"];
+                [cell.contentView addSubview:_profileImage];
+                UILabel *_emailId = [[UILabel alloc] initWithFrame:CGRectMake(10,125,200,20)];
+                _emailId.text = self._profileInfo;
+                _emailId.textAlignment = NSTextAlignmentLeft;
+                _emailId.textColor = [UIColor blackColor];
+                [cell.contentView addSubview:_emailId];
+            }
+            break;
+        case 1:
+            cell.textLabel.text = @"";
+            break;
+            
+        default:
+            break;
     }
     
     return cell;
