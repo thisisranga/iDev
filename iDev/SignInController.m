@@ -201,6 +201,7 @@
     __password.backgroundColor = SIGN_UP_TEXT_FEILD_BACKGROUND_COLOR;
     __password.delegate = self;
     __password.autocorrectionType = UITextAutocorrectionTypeNo;
+    __password.autocapitalizationType = NO;
     __password.clearButtonMode = YES;
     __password.secureTextEntry = YES;
     [__ContainerView addSubview:__password];

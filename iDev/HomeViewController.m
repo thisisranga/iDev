@@ -64,6 +64,7 @@
     [push setQuery:query];
     [push setMessage:self._query.text];
     [push sendPushInBackground];
+    [self refreshChatView:self._query.text];
 
     
 }

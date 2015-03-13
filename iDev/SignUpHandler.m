@@ -226,6 +226,7 @@
     [__fullName becomeFirstResponder];
     __fullName.delegate = self;
     __fullName.autocorrectionType = UITextAutocorrectionTypeNo;
+    __fullName.autocapitalizationType = NO;
     __fullName.clearButtonMode = YES;
     [__ContainerView addSubview:__fullName];
     
@@ -234,6 +235,7 @@
     __emailID.backgroundColor = SIGN_UP_TEXT_FEILD_BACKGROUND_COLOR;
     __emailID.delegate = self;
     __emailID.autocorrectionType = UITextAutocorrectionTypeNo;
+    __emailID.autocapitalizationType = NO;
     __emailID.clearButtonMode = YES;
     [__ContainerView addSubview:__emailID];
     
@@ -242,6 +244,7 @@
     __userName.backgroundColor = SIGN_UP_TEXT_FEILD_BACKGROUND_COLOR;
     __userName.delegate = self;
     __userName.autocorrectionType = UITextAutocorrectionTypeNo;
+    __userName.autocapitalizationType = NO;
     __userName.clearButtonMode = YES;
     [__ContainerView addSubview:__userName];
     
@@ -250,6 +253,7 @@
     __password.backgroundColor = SIGN_UP_TEXT_FEILD_BACKGROUND_COLOR;
     __password.delegate = self;
     __password.autocorrectionType = UITextAutocorrectionTypeNo;
+    __password.autocapitalizationType = NO;
     __password.clearButtonMode = YES;
     __password.secureTextEntry = YES;
     [__ContainerView addSubview:__password];
