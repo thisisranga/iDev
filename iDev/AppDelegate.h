@@ -11,6 +11,7 @@
 
 @protocol RemoteNotificationsDelegate <NSObject>
 -(void)didReceiveNotifications:(NSDictionary *)notification;
+-(void)didReceiveNotificationFromParse:(NSDictionary *)notification;
 @end
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>

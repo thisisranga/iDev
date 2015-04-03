@@ -12,7 +12,8 @@
 
 @interface SignUpHandler ()
 @property(nonatomic, retain) UIView *_ContainerView;
-@property(nonatomic, retain) UITextField *_fullName;
+@property(nonatomic, retain) UITextField *_firstName;
+@property(nonatomic, retain) UITextField *_lastName;
 @property(nonatomic, retain) UITextField *_userName;
 @property(nonatomic, retain) UITextField *_emailID;
 @property(nonatomic, retain) UITextField *_password;
@@ -26,8 +27,7 @@
 
 @implementation SignUpHandler
 
-- (void)briteValidateUserEmail
-{
+- (void)briteValidateUserEmail {
     NSString *url = [NSString stringWithFormat:@"https://bpi.briteverify.com/emails.json?address=%@&apikey=13e28caa-9517-4241-9077-d283ba46992f",self._emailID.text];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:1];
     [request setHTTPMethod:@"GET"];
@@ -42,14 +42,14 @@
         // Did API return valid dataset?
         if ([[profile objectForKey:@"status"] isEqualToString:@"valid"])
         {
-            [self saveUserProfileInfo];
+            [self signUpUser];
             NSLog(@"Email id Verification response = %@", profile);
         }
         else
         {
             
             [self.view addSubview:[self errorView:@"Invalid email id"]];
-        
+            
             
         }
         
@@ -62,12 +62,10 @@
         [self.view addSubview:[self errorView:@"Unable to verify email id, please use other email id."]];
     }
 }
--(void)dismissErrorView:(id)sender
-{
+-(void)dismissErrorView:(id)sender {
     [self._errorContainerView removeFromSuperview];
 }
--(UIView *)errorView:(NSString*)errorMessage;
-{
+-(UIView *)errorView:(NSString*)errorMessage {
     [self._errorContainerView removeFromSuperview];
     [self._spinner stopAnimating];
     CGRect screenRect = [[UIScreen mainScreen] bounds];
@@ -85,18 +83,19 @@
     __dismiss.titleLabel.font = [UIFont systemFontOfSize:14.0];
     [__dismiss addTarget:self action:@selector(dismissErrorView:) forControlEvents:UIControlEventTouchUpInside];
     [self._errorContainerView addSubview:__dismiss];
-
     
-    UILabel *error = [[UILabel alloc] initWithFrame:CGRectMake(10,40,sWidth-2*xyPadding-10,30)];
-    error.text = errorMessage;
-    error.textColor = [UIColor whiteColor];
-    error.textAlignment = NSTextAlignmentCenter;
-    [self._errorContainerView addSubview:error];
+    
+    UILabel *_error = [[UILabel alloc] initWithFrame:CGRectMake(10,30,sWidth-2*xyPadding-20,50)];
+    _error.text = errorMessage;
+    _error.textColor = [UIColor whiteColor];
+    _error.textAlignment = NSTextAlignmentCenter;
+    _error.lineBreakMode = YES;
+    _error.numberOfLines = 0;
+    [self._errorContainerView addSubview:_error];
     return self._errorContainerView;
 }
 
--(BOOL) NSStringIsValidEmail:(NSString *)emailString
-{
+-(BOOL) NSStringIsValidEmail:(NSString *)emailString {
     BOOL strictFilter = YES;
     NSString *stricterFilterString = @"[A-Z0-9a-z\\._%+-]+@([A-Za-z0-9-]+\\.)+[A-Za-z]{2,4}";
     NSString *laxString = @".+@([A-Za-z0-9-]+\\.)+[A-Za-z]{2}[A-Za-z]*";
@@ -105,31 +104,35 @@
     return [emailTest evaluateWithObject:emailString];
 }
 
--(BOOL)validateInputs
-{
+-(BOOL)validateInputs {
     BOOL isEmailIdValid = [self NSStringIsValidEmail:self._emailID.text];
-    if (self._fullName.text.length == 0)
-    {
+    if (self._firstName.text.length == 0) {
         [self.view addSubview:[self errorView:@"Please enter your first name"]];
         return NO;
     }
-    else if (self._userName.text.length == 0)
-    {
+    if (self._lastName.text.length == 0) {
         [self.view addSubview:[self errorView:@"Please enter your last name"]];
         return NO;
     }
-    else if (self._emailID.text.length == 0 || !isEmailIdValid)
-    {
+    else if (self._emailID.text.length == 0 || !isEmailIdValid) {
         [self.view addSubview:[self errorView:@"Please enter a valid email"]];
         return NO;
     }
+    else if (self._userName.text.length == 0) {
+        [self.view addSubview:[self errorView:@"Please create your username"]];
+        return NO;
+    }
     else if (self._password.text.length == 0) {
-        [self.view addSubview:[self errorView:@"Please enter a password"]];
+        [self.view addSubview:[self errorView:@"Please create a password"]];
+        return NO;
+    }
+    else if (self._password.text.length <= 6) {
+        [self.view addSubview:[self errorView:@"Password must contain minimum\n of 6 characters"]];
         return NO;
     }
     return YES;
 }
--(void)saveUserProfileInfo {
+-(void)signUpUser {
     PFUser *iDevUser = [PFUser user];
     iDevUser.username = self._userName.text;
     iDevUser.email = self._emailID.text;
@@ -142,43 +145,18 @@
             // There was a problem, check error.description
             [self errorView:@"Registration Failure, please try again."];
         }
-}];
+    }];
 }
-//-(void)checkUserExistence
-//{
-//    PFQuery *query = [PFQuery queryWithClassName:@"ProfileInfo"];
-//    [query whereKey:@"emailId" equalTo:self._emailID.text];
-//    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-//        if (!error) {
-//            // The find succeeded.
-//            NSLog(@"Successfully retrieved %lu scores.", (unsigned long)objects.count);
-//            if (objects.count == 0)
-//            {
-//                 [self saveUserProfileInfo];
-//            }
-//            else
-//            {
-//                [self.view addSubview:[self errorView:@"This email id is already registered with iDev"]];
-//                [self reloadInputViews];
-//                
-//            }
-//           
-//        } else {
-//            // Log details of the failure
-//            NSLog(@"Error: %@ %@", error, [error userInfo]);
-//        }
-//    }];
-//}
 -(void)reloadInputViews {
     [self._spinner stopAnimating];
-    self._fullName.text = @"";
+    self._firstName.text = @"";
+    self._lastName.text = @"";
     self._userName.text = @"";
     self._emailID.text = @"";
     self._password.text = @"";
-    [self._fullName becomeFirstResponder];
+    [self._firstName becomeFirstResponder];
 }
--(void)submit:(id)sender
-{
+-(void)submit:(id)sender {
     if ([self validateInputs])
     {
         [self._spinner startAnimating];
@@ -188,7 +166,7 @@
                 nil;
             });
         });
-
+        
         
     }
 }
@@ -220,17 +198,32 @@
     [__dismiss addTarget:self action:@selector(dismiss:) forControlEvents:UIControlEventTouchUpInside];
     [__ContainerView addSubview:__dismiss];
     
-    __fullName = [[UITextField alloc] initWithFrame:CGRectMake(xyPadding,50,sWidth-2*xyPadding,40)];
-    __fullName.placeholder = @"Full Name";
-    __fullName.backgroundColor = SIGN_UP_TEXT_FEILD_BACKGROUND_COLOR;
-    [__fullName becomeFirstResponder];
-    __fullName.delegate = self;
-    __fullName.autocorrectionType = UITextAutocorrectionTypeNo;
-    __fullName.autocapitalizationType = NO;
-    __fullName.clearButtonMode = YES;
-    [__ContainerView addSubview:__fullName];
+    float nameInputFieldWidth = (sWidth-2*xyPadding-1)/2;
+    
+    __firstName = [[UITextField alloc] initWithFrame:CGRectMake(xyPadding,50,nameInputFieldWidth,40)];
+    __firstName.layer.sublayerTransform = CATransform3DMakeTranslation(10, 0, 0);
+    __firstName.placeholder = @"First Name";
+    __firstName.backgroundColor = SIGN_UP_TEXT_FEILD_BACKGROUND_COLOR;
+    [__firstName becomeFirstResponder];
+    __firstName.delegate = self;
+    __firstName.autocorrectionType = UITextAutocorrectionTypeNo;
+    __firstName.autocapitalizationType = NO;
+    __firstName.clearButtonMode = YES;
+    [__ContainerView addSubview:__firstName];
+    
+    __lastName = [[UITextField alloc] initWithFrame:CGRectMake(xyPadding+nameInputFieldWidth+1,50,nameInputFieldWidth,40)];
+    __lastName.layer.sublayerTransform = CATransform3DMakeTranslation(10, 0, 0);
+    __lastName.placeholder = @"Last Name";
+    __lastName.backgroundColor = SIGN_UP_TEXT_FEILD_BACKGROUND_COLOR;
+    [__lastName becomeFirstResponder];
+    __lastName.delegate = self;
+    __lastName.autocorrectionType = UITextAutocorrectionTypeNo;
+    __lastName.autocapitalizationType = NO;
+    __lastName.clearButtonMode = YES;
+    [__ContainerView addSubview:__lastName];
     
     __emailID = [[UITextField alloc] initWithFrame:CGRectMake(xyPadding,91,sWidth-2*xyPadding,40)];
+    __emailID.layer.sublayerTransform = CATransform3DMakeTranslation(10, 0, 0);
     __emailID.placeholder = @"Email ID";
     __emailID.backgroundColor = SIGN_UP_TEXT_FEILD_BACKGROUND_COLOR;
     __emailID.delegate = self;
@@ -240,6 +233,7 @@
     [__ContainerView addSubview:__emailID];
     
     __userName = [[UITextField alloc] initWithFrame:CGRectMake(xyPadding,132,sWidth-2*xyPadding,40)];
+    __userName.layer.sublayerTransform = CATransform3DMakeTranslation(10, 0, 0);
     __userName.placeholder = @"Create Username";
     __userName.backgroundColor = SIGN_UP_TEXT_FEILD_BACKGROUND_COLOR;
     __userName.delegate = self;
@@ -249,6 +243,7 @@
     [__ContainerView addSubview:__userName];
     
     __password = [[UITextField alloc] initWithFrame:CGRectMake(xyPadding,173,sWidth-2*xyPadding,40)];
+    __password.layer.sublayerTransform = CATransform3DMakeTranslation(10, 0, 0);
     __password.placeholder = @"Create Password";
     __password.backgroundColor = SIGN_UP_TEXT_FEILD_BACKGROUND_COLOR;
     __password.delegate = self;
@@ -292,5 +287,14 @@
 -(BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
     return YES;
+}
+// placeholder position
+- (CGRect)textRectForBounds:(CGRect)bounds {
+    return CGRectInset( bounds , 10 , 10 );
+}
+
+// text position
+- (CGRect)editingRectForBounds:(CGRect)bounds {
+    return CGRectInset( bounds , 10 , 10 );
 }
 @end

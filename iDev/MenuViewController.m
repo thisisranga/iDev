@@ -10,10 +10,21 @@
 #import <Parse/Parse.h>
 #import "iDev.h"
 @interface MenuViewController ()
-
+@property (nonatomic, retain) NSArray *usersList;
 @end
 
 @implementation MenuViewController
+
+- (void)retrieveMembersFromParse {
+    PFQuery *userQuery = [PFUser query];
+    [userQuery orderByAscending:@"username"];
+    [userQuery whereKey:@"username" notEqualTo:self._profileInfo];
+    [userQuery findObjectsInBackgroundWithBlock:^(NSArray *users, NSError *error) {
+        NSArray *userArray = [users mutableCopy];
+        self.usersList = userArray;
+        [self.tableView reloadData];
+    }];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -27,7 +38,10 @@
     self.navigationItem.title = @"Members";
     self.navigationController.navigationBar.barTintColor = HOME_VIEW_TOOL_BAR_COLOR;
 }
-
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:YES];
+    [self retrieveMembersFromParse];
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -42,12 +56,12 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-
+   
     // Return the number of rows in the section.
     if (section == 0)
         return 1;
     
-    return 5;
+    return [self.usersList count];
 }
 
 - (CGFloat)tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -58,11 +72,12 @@
             else
                 return 40.0;
         case 1:
-                return 40;
+            return 40;
         default:
             return 40.0;
     }
 }
+
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     NSString *sectionName;
@@ -80,8 +95,8 @@
     }
     return sectionName;
 }
-- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
-{
+
+- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section {
     // Background color
     view.tintColor = SIGN_IN_BUTTON_BACKGROUND_COLOR;
     
@@ -93,10 +108,10 @@
     // Note: does not preserve gradient effect of original header
     // header.contentView.backgroundColor = [UIColor blackColor];
 }
+
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     return 40;
 }
-
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -116,15 +131,16 @@
                 _profileImage.backgroundColor = [UIColor grayColor];
                 _profileImage.image = [UIImage imageNamed:@"profile.png"];
                 [cell.contentView addSubview:_profileImage];
-                UILabel *_emailId = [[UILabel alloc] initWithFrame:CGRectMake(10,125,200,20)];
-                _emailId.text = self._profileInfo;
-                _emailId.textAlignment = NSTextAlignmentLeft;
-                _emailId.textColor = [UIColor blackColor];
-                [cell.contentView addSubview:_emailId];
+                UILabel *_userName = [[UILabel alloc] initWithFrame:CGRectMake(10,125,200,20)];
+                _userName.text = self._profileInfo;
+                _userName.textAlignment = NSTextAlignmentLeft;
+                _userName.textColor = [UIColor blackColor];
+                [cell.contentView addSubview:_userName];
             }
             break;
         case 1:
-            cell.textLabel.text = @"";
+                cell.textLabel.text = [NSString stringWithFormat:@"%@", [[self.usersList objectAtIndex:indexPath.row] objectForKey:@"username"]];
+            
             break;
             
         default:

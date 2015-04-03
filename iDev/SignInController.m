@@ -26,30 +26,12 @@
 
 @implementation SignInController
 
--(void)welcomeToiDev:(NSString*)objects {
-    [self.view endEditing:YES];
-    MenuViewController *_menuViewController = [[MenuViewController alloc] init];
-    _menuViewController._profileInfo = objects;
-    HomeViewController *_homeViewController = [[HomeViewController alloc] init];
-    UINavigationController *frontNavigationController = [[UINavigationController alloc] initWithRootViewController:_homeViewController];
-    frontNavigationController.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
-    UINavigationController *rearNavigationController = [[UINavigationController alloc] initWithRootViewController:_menuViewController];
-    SWRevealViewController *_revealViewController = [[SWRevealViewController alloc]
-                                                     initWithRearViewController:rearNavigationController  frontViewController:frontNavigationController];
-    _revealViewController.rightViewController = nil;
-    _revealViewController.delegate = self;
-    
-    AppDelegate *appDel = (AppDelegate*)[[UIApplication sharedApplication] delegate];
-    [appDel.window setRootViewController:_revealViewController];
-    [self.navigationController popToRootViewControllerAnimated:YES];
-}
 -(void)dismiss:(id)sender {
     
     [self.view endEditing:YES];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
--(BOOL) NSStringIsValidEmail:(NSString *)emailString
-{
+-(BOOL) NSStringIsValidEmail:(NSString *)emailString {
     BOOL strictFilter = YES;
     NSString *stricterFilterString = @"[A-Z0-9a-z\\._%+-]+@([A-Za-z0-9-]+\\.)+[A-Za-z]{2,4}";
     NSString *laxString = @".+@([A-Za-z0-9-]+\\.)+[A-Za-z]{2}[A-Za-z]*";
@@ -57,9 +39,8 @@
     NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
     return [emailTest evaluateWithObject:emailString];
 }
--(BOOL)validateInputs
-{
-   if (self._userName.text.length == 0)
+-(BOOL)validateInputs {
+    if (self._userName.text.length == 0)
     {
         [self.view addSubview:[self errorView:@"Please enter a valid email"]];
         return NO;
@@ -70,12 +51,10 @@
     }
     return YES;
 }
--(void)dismissErrorView:(id)sender
-{
+-(void)dismissErrorView:(id)sender {
     [self._errorContainerView removeFromSuperview];
 }
--(UIView *)errorView:(NSString*)errorMessage;
-{
+-(UIView *)errorView:(NSString*)errorMessage {
     [self._errorContainerView removeFromSuperview];
     [self._spinner stopAnimating];
     CGRect screenRect = [[UIScreen mainScreen] bounds];
@@ -102,56 +81,40 @@
     [self._errorContainerView addSubview:error];
     return self._errorContainerView;
 }
+-(void)welcomeToiDev:(NSString*)userInfo {
+    [self.view endEditing:YES];
+    MenuViewController *_menuViewController = [[MenuViewController alloc] init];
+    _menuViewController._profileInfo = userInfo;
+    HomeViewController *_homeViewController = [[HomeViewController alloc] init];
+    UINavigationController *frontNavigationController = [[UINavigationController alloc] initWithRootViewController:_homeViewController];
+    frontNavigationController.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
+    UINavigationController *rearNavigationController = [[UINavigationController alloc] initWithRootViewController:_menuViewController];
+    SWRevealViewController *_revealViewController = [[SWRevealViewController alloc]
+                                                     initWithRearViewController:rearNavigationController  frontViewController:frontNavigationController];
+    _revealViewController.rightViewController = nil;
+    _revealViewController.delegate = self;
+    
+    AppDelegate *appDel = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+    [appDel.window setRootViewController:_revealViewController];
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
 -(void)checkUserExistence
 {
-//    PFQuery *query = [PFQuery queryWithClassName:@"ProfileInfo"];
-//    [query whereKey:@"emailId" equalTo:self._emailID.text];
-//    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-//        if (!error) {
-//            // The find succeeded.
-//            NSLog(@"Successfully retrieved %lu scores.", (unsigned long)objects.count);
-//            if (objects.count == 0)
-//            {
-//               [self.view addSubview:[self errorView:@"Invalid email id or password"]];
-//            }
-//            else
-//            {
-//                NSString *currentPassword = [objects.lastObject objectForKey:@"password"];
-//                if ([currentPassword isEqualToString:self._password.text]) {
-//                    [self.view addSubview:[self errorView:@"Sign In Valid"]];
-//                    [self welcomeToiDev:objects];
-//                }
-//                else
-//                {
-//                    [self.view addSubview:[self errorView:@"Invalid email id or password"]];
-//                }
-//            }
-//            
-//        } else {
-//            // Log details of the failure
-//            NSLog(@"Error: %@ %@", error, [error userInfo]);
-//            [self.view addSubview:[self errorView:@"We are experiencing some problems, please try again later"]];
-//        }
-//    }];
-    
     [PFUser logInWithUsernameInBackground:self._userName.text password:self._password.text block:^(PFUser *user, NSError *error) {
         if (!error) {
             //if succeeded.
-            NSLog(@"email id - %@", user.email);
-            NSLog(@"PFUser = %@", user);
-            
-            [self welcomeToiDev:user.email];
+            NSLog(@"PFUser = %@", user.username);
+            [self.view endEditing:YES];
+            [self welcomeToiDev:user.username];
         }
         else {
             [self.view addSubview:[self errorView:@"Invaid user name or password"]];
         }
     }];
-  
-    
 }
 
--(void)submit:(id)sender
-{
+-(void)submit:(id)sender {
     if ([self validateInputs])
     {
         [self._spinner startAnimating];
@@ -184,9 +147,10 @@
     __dismiss.titleLabel.font = [UIFont systemFontOfSize:16.0];
     [__dismiss addTarget:self action:@selector(dismiss:) forControlEvents:UIControlEventTouchUpInside];
     [__ContainerView addSubview:__dismiss];
-
+    
     
     __userName = [[UITextField alloc] initWithFrame:CGRectMake(xyPadding,60,sWidth-2*xyPadding,40)];
+    __userName.layer.sublayerTransform = CATransform3DMakeTranslation(10, 0, 0);
     __userName.placeholder = @"Enter your user name";
     __userName.backgroundColor = SIGN_UP_TEXT_FEILD_BACKGROUND_COLOR;
     __userName.delegate = self;
@@ -197,6 +161,7 @@
     [__ContainerView addSubview:__userName];
     
     __password = [[UITextField alloc] initWithFrame:CGRectMake(xyPadding,101,sWidth-2*xyPadding,40)];
+    __password.layer.sublayerTransform = CATransform3DMakeTranslation(10, 0, 0);
     __password.placeholder = @"Enter your password";
     __password.backgroundColor = SIGN_UP_TEXT_FEILD_BACKGROUND_COLOR;
     __password.delegate = self;
@@ -235,5 +200,15 @@
 -(BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
     return YES;
+}
+
+// placeholder position
+- (CGRect)textRectForBounds:(CGRect)bounds {
+    return CGRectInset( bounds , 10 , 10 );
+}
+
+// text position
+- (CGRect)editingRectForBounds:(CGRect)bounds {
+    return CGRectInset( bounds , 10 , 10 );
 }
 @end

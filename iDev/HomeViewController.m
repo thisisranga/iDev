@@ -8,6 +8,7 @@
 
 #import "HomeViewController.h"
 #import "SWRevealViewController.h"
+#import "ViewController.h"
 #import "AppDelegate.h"
 #import <Parse/Parse.h>
 #import "iDev.h"
@@ -23,33 +24,19 @@
 
 @implementation HomeViewController
 
+//- (NSString *)getCurrentTimeStamp {
+//    int precision = 4;
+//    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+//    formatter.minimumFractionDigits = precision;
+//    formatter.maximumFractionDigits = precision;
+//    NSString *timeStamp = [formatter stringFromNumber:@([[NSDate date] timeIntervalSince1970])];
+//    return timeStamp;
+//}
+
 -(void)send:(id)sender {
-//    MFMessageComposeViewController *messageComposer = [[MFMessageComposeViewController alloc] init];
-//    [messageComposer setMessageComposeDelegate:self];
-//    
-//    if ([MFMessageComposeViewController canSendText])
-//    {
-//        NSArray *recipientsArray = [NSArray arrayWithObjects:@"18455327497",@"",nil];
-//        [messageComposer setRecipients:recipientsArray];
-//        [messageComposer setBody:self._query.text];
-//        [self presentViewController:messageComposer animated:YES completion:nil];
-//    }
-//    else {
-//        NSLog(@"Can't Open text");
-//    }
-    
 
-    
-//    On iOS, you can add a pointer to this user to their associated Installation object:
-    
-    [[PFInstallation currentInstallation] setObject:[PFUser currentUser] forKey:@"user"];
-    [[PFInstallation currentInstallation] saveEventually];
-
-    
-    // Build a query to match users with a birthday today
+    // Build a query to match Chatmate user
     PFQuery *innerQuery = [PFUser query];
-    
-    // Use hasPrefix: to only match against the month/date
     [innerQuery whereKey:@"username" hasPrefix:@"sdudipala"];
     
     // Build the actual push notification target query
@@ -64,28 +51,41 @@
     [push setQuery:query];
     [push setMessage:self._query.text];
     [push sendPushInBackground];
+    
+    double currentTimeStamp = [[NSDate date] timeIntervalSince1970];
+    
+    PFObject *messageDB = [PFObject objectWithClassName:@"MessageDB"];
+    messageDB[@"message"] = self._query.text;
+    messageDB[@"receipientId"] = @"sdudipala";
+    messageDB[@"senderId"] = @"rnallave";
+    messageDB[@"timeStamp"] = @(currentTimeStamp);
+    [messageDB saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (succeeded) {
+            // The object has been saved.
+        } else {
+            // There was a problem, check error.description
+        }
+    }];
+    
     [self refreshChatView:self._query.text];
-
     
+     self._query.text = @"";
 }
--(void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result  {
-    
-//    switch (result) {
-//        case MessageComposeResultSent:
-//            NSLog(@"Sent");
-//            break;
-//            
-//        case MessageComposeResultFailed:
-//            NSLog(@"Failed");
-//            break;
-//            
-//        case MessageComposeResultCancelled:
-//            NSLog(@"Cancelled");
-//            break;
-//            
-//        default:
-//            break;
-//    }
+
+-(void)welcomeScreen {
+    ViewController *_welcomeScreen = [[ViewController alloc] init];
+    AppDelegate *appDel = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+    [appDel.window setRootViewController:_welcomeScreen];
+    [_welcomeScreen presentationController];
+}
+
+-(void)logOut:(id)sender {
+    dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [PFUser logOut];
+        dispatch_async( dispatch_get_main_queue(), ^{
+            [self welcomeScreen];
+        });
+    });
 }
 -(void)revealToggle:(id)sender {
     [self._query resignFirstResponder];
@@ -96,14 +96,13 @@
 }
 -(void)refreshChatView:(NSString*)message {
     
-   
+    
     self._yAxis = self._yAxis + 30;
     
     if (!self._firstTimePing)
     {
         CGPoint bottomOffset = CGPointMake(0,self._yAxis-110);
         [self._chatView setContentOffset:bottomOffset animated:YES];
-        NSLog(@"y axis value = %i", self._yAxis );
     }
     
     //Calculate the expected size based on the font and linebreak mode of your label
@@ -114,19 +113,29 @@
     _iDevMessage.backgroundColor = [UIColor whiteColor];
     [_iDevMessage sizeToFit];
     [self._chatView addSubview:_iDevMessage];
-    self._query.text = @"";
     self._firstTimePing = NO;
 }
+
 -(void)didReceiveNotifications:(NSDictionary *)notification {
-   
-    
     NSString *iDevMessage = [[notification objectForKey:@"aps"] objectForKey:@"alert"];
     NSLog(@"notification = %@", iDevMessage);
     [self refreshChatView:iDevMessage];
 }
+
+-(void)didReceiveNotificationFromParse:(NSDictionary *)notification {
+    NSString *iDevMessage = [notification objectForKey:@"message"];
+    NSLog(@"notification = %@", iDevMessage);
+    [self refreshChatView:iDevMessage];
+}
+
 - (void)viewDidLoad {
     
     [super viewDidLoad];
+    
+    //    On iOS, you can add a pointer to this user to their associated Installation object:
+    
+    [[PFInstallation currentInstallation] setObject:[PFUser currentUser] forKey:@"user"];
+    [[PFInstallation currentInstallation] saveEventually];
     
     AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
     appDelegate.delegate = self;
@@ -136,17 +145,19 @@
     
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
-   
+    
     UIBarButtonItem *revealButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"reveal-icon.png"]
                                                                          style:UIBarButtonItemStylePlain target:self action:@selector(revealToggle:)];
     revealButtonItem.tintColor = SIGN_IN_BUTTON_BACKGROUND_COLOR;
     self.navigationController.navigationBar.barTintColor = HOME_VIEW_TOOL_BAR_COLOR;
     self.navigationItem.leftBarButtonItem = revealButtonItem;
     self.navigationItem.title = @"DashBoard";
-    //    UIBarButtonItem *rightRevealButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"reveal-icon.png"]
-    //                                                                              style:UIBarButtonItemStylePlain target:revealController action:@selector(rightRevealToggle:)];
-    //
-    //    self.navigationItem.rightBarButtonItem = rightRevealButtonItem;
+    UIBarButtonItem *rightRevealButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Sign Out"
+                                                                              style:UIBarButtonItemStyleBordered target:self action:@selector(logOut:)];
+    
+    rightRevealButtonItem.tintColor = SIGN_IN_BUTTON_BACKGROUND_COLOR;
+    self.navigationItem.rightBarButtonItem = rightRevealButtonItem;
+    
     
     CGRect screenRect = [[UIScreen mainScreen] bounds];
     float sWidth = screenRect.size.width;
@@ -186,7 +197,7 @@
     __send.titleLabel.shadowColor = [UIColor blueColor];
     [__send addTarget:self action:@selector(send:) forControlEvents:UIControlEventTouchUpInside];
     [__toolBar addSubview:__send];
-   
+    
     [self.view addSubview:__toolBar];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -203,8 +214,6 @@
                                    action:@selector(dismissKeyboard)];
     
     [self.view addGestureRecognizer:tap];
-    
-
 }
 -(void)dismissKeyboard {
     [self._query resignFirstResponder];
@@ -220,9 +229,9 @@
     float toolBarHeight = 50;
     // Animate the current view out of the way
     [UIView animateWithDuration:0.3f animations:^ {
-    self._toolBar.frame = CGRectMake(0,265,sWidth,toolBarHeight);
-    self._chatView.frame = CGRectMake(0,70,sWidth,190);
-         }];
+        self._toolBar.frame = CGRectMake(0,265,sWidth,toolBarHeight);
+        self._chatView.frame = CGRectMake(0,70,sWidth,190);
+    }];
 }
 -(void)keyboardWillHide {
     CGRect screenRect = [[UIScreen mainScreen] bounds];
@@ -231,8 +240,8 @@
     float toolBarHeight = 50;
     // Animate the current view out of the way
     [UIView animateWithDuration:0.3f animations:^ {
-    self._toolBar.frame= CGRectMake(0,sHeight-toolBarHeight,sWidth,toolBarHeight);
-    self._chatView.frame = CGRectMake(0,70,sWidth,sHeight-50);
-         }];
+        self._toolBar.frame= CGRectMake(0,sHeight-toolBarHeight,sWidth,toolBarHeight);
+        self._chatView.frame = CGRectMake(0,70,sWidth,sHeight-50);
+    }];
 }
 @end

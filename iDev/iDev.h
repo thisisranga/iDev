@@ -9,6 +9,8 @@
 #ifndef iDev_iDev_h
 #define iDev_iDev_h
 
+#define SENDER @"rnallave"
+#define RECEIVER @"sdudipala"
 #define JOIN_COMMUNITY_BUTTON_TITLE @"Join Now"
 #define SIGN_IN_BUTTON_TITLE @"Sign In"
 #define JOIN_BUTTON_BACKGROUND_COLOR [[NSString stringWithFormat:@"#d3571a"] getHexColor]

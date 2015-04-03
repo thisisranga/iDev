@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 #import <MessageUI/MessageUI.h>
 #import "AppDelegate.h"
-@interface HomeViewController : UIViewController <UITextFieldDelegate, MFMessageComposeViewControllerDelegate, RemoteNotificationsDelegate>
+@interface HomeViewController : UIViewController <UITextFieldDelegate,RemoteNotificationsDelegate>
 @end

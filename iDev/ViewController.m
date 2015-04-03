@@ -11,7 +11,7 @@
 #import "SignInController.h"
 #import "iDev.h"
 
-@interface ViewController ()
+@interface ViewController () 
 @property(nonatomic, retain) UIImageView *_iDevTheme;
 @property(nonatomic, retain) UIImageView *_iDevEssence;
 @property(nonatomic, retain) UIButton *_joinCommunity;
@@ -21,8 +21,8 @@
 @implementation ViewController
 
 -(void)joinNow:(id)sender {
-   SignUpHandler *signUpView = [[SignUpHandler alloc] init];
-   [self presentViewController:signUpView animated:YES completion:nil];
+    SignUpHandler *signUpView = [[SignUpHandler alloc] init];
+    [self presentViewController:signUpView animated:YES completion:nil];
 }
 -(void)signIn:(id)sender {
     SignInController *signIn = [[SignInController alloc] init];
@@ -69,8 +69,6 @@
     __signIn.titleLabel.shadowColor = [UIColor blueColor];
     [__signIn addTarget:self action:@selector(signIn:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:__signIn];
-    
-    
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

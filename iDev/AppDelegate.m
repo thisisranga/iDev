@@ -7,14 +7,54 @@
 //
 
 #import "AppDelegate.h"
+#import "SWRevealViewController.h"
+#import "HomeViewController.h"
+#import "MenuViewController.h"
 #import <Parse/Parse.h>
 
-@interface AppDelegate ()
+@interface AppDelegate () <SWRevealViewControllerDelegate>
 
 @end
 
 @implementation AppDelegate
 
+- (void)refreshUserStatus:(NSString*)username {
+    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    PFQuery *query = [PFQuery queryWithClassName:@"MessageDB"];
+    [query whereKey:@"receipientId" equalTo:username];
+    [query whereKey:@"timeStamp" greaterThan:[[NSUserDefaults standardUserDefaults] objectForKey:@"appSnapShot"]];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (!error) {
+            // The find succeeded.
+            NSLog(@"Successfully retrieved %lu messages.", (unsigned long)objects.count);
+            for (int i = 0; i<[objects count]; i++) {
+                NSLog(@"Parse message object = %@",[objects objectAtIndex:i]);
+                [self.delegate didReceiveNotificationFromParse:[objects objectAtIndex:i]];
+            }
+            
+        }
+        else {
+            // Log details of the failure
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
+        }
+    }];
+}
+-(void)flowManager:(NSString*)userInfo {
+    
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    
+    MenuViewController *_menuViewController = [[MenuViewController alloc] init];
+    _menuViewController._profileInfo = userInfo;
+    HomeViewController *_homeViewController = [[HomeViewController alloc] init];
+    UINavigationController *frontNavigationController = [[UINavigationController alloc] initWithRootViewController:_homeViewController];
+    frontNavigationController.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
+    UINavigationController *rearNavigationController = [[UINavigationController alloc] initWithRootViewController:_menuViewController];
+    SWRevealViewController *_revealViewController = [[SWRevealViewController alloc]
+                                                     initWithRearViewController:rearNavigationController  frontViewController:frontNavigationController];
+    _revealViewController.rightViewController = nil;
+    _revealViewController.delegate = self;
+    self.window.rootViewController = _revealViewController;
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
@@ -30,6 +70,11 @@
                                                                              categories:nil];
     [application registerUserNotificationSettings:settings];
     [application registerForRemoteNotifications];
+    PFUser *user = [PFUser currentUser];
+    if (user.username !=nil) {
+        [self flowManager:user.username];
+    }
+    
     return YES;
 }
 
@@ -41,14 +86,20 @@
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setDouble:[[NSDate date] timeIntervalSince1970] forKey:@"appSnapShot"];
+    [userDefaults synchronize];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    PFUser *user = [PFUser currentUser];
+    if (user.username !=nil) {
+        [self refreshUserStatus:user.username];
+    }
 }
-
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
@@ -67,6 +118,9 @@
 //    [PFPush handlePush:userInfo];
     NSLog(@"user info = %@",userInfo);
     [self.delegate didReceiveNotifications:userInfo];
+}
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+    NSLog(@"Did fail to register for push, %@", error);
 }
 
 #pragma mark - Core Data stack
