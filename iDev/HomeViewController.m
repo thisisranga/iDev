@@ -24,52 +24,8 @@
 
 @implementation HomeViewController
 
-//- (NSString *)getCurrentTimeStamp {
-//    int precision = 4;
-//    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-//    formatter.minimumFractionDigits = precision;
-//    formatter.maximumFractionDigits = precision;
-//    NSString *timeStamp = [formatter stringFromNumber:@([[NSDate date] timeIntervalSince1970])];
-//    return timeStamp;
-//}
-
 -(void)send:(id)sender {
 
-    // Build a query to match Chatmate user
-    PFQuery *innerQuery = [PFUser query];
-    [innerQuery whereKey:@"username" hasPrefix:@"sdudipala"];
-    
-    // Build the actual push notification target query
-    PFQuery *query = [PFInstallation query];
-    
-    // only return Installations that belong to a User that
-    // matches the innerQuery
-    [query whereKey:@"user" matchesQuery:innerQuery];
-    
-    // Send the notification.
-    PFPush *push = [[PFPush alloc] init];
-    [push setQuery:query];
-    [push setMessage:self._query.text];
-    [push sendPushInBackground];
-    
-    double currentTimeStamp = [[NSDate date] timeIntervalSince1970];
-    
-    PFObject *messageDB = [PFObject objectWithClassName:@"MessageDB"];
-    messageDB[@"message"] = self._query.text;
-    messageDB[@"receipientId"] = @"sdudipala";
-    messageDB[@"senderId"] = @"rnallave";
-    messageDB[@"timeStamp"] = @(currentTimeStamp);
-    [messageDB saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        if (succeeded) {
-            // The object has been saved.
-        } else {
-            // There was a problem, check error.description
-        }
-    }];
-    
-    [self refreshChatView:self._query.text];
-    
-     self._query.text = @"";
 }
 
 -(void)welcomeScreen {
@@ -115,19 +71,6 @@
     [self._chatView addSubview:_iDevMessage];
     self._firstTimePing = NO;
 }
-
--(void)didReceiveNotifications:(NSDictionary *)notification {
-    NSString *iDevMessage = [[notification objectForKey:@"aps"] objectForKey:@"alert"];
-    NSLog(@"notification = %@", iDevMessage);
-    [self refreshChatView:iDevMessage];
-}
-
--(void)didReceiveNotificationFromParse:(NSDictionary *)notification {
-    NSString *iDevMessage = [notification objectForKey:@"message"];
-    NSLog(@"notification = %@", iDevMessage);
-    [self refreshChatView:iDevMessage];
-}
-
 - (void)viewDidLoad {
     
     [super viewDidLoad];
@@ -136,9 +79,6 @@
     
     [[PFInstallation currentInstallation] setObject:[PFUser currentUser] forKey:@"user"];
     [[PFInstallation currentInstallation] saveEventually];
-    
-    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-    appDelegate.delegate = self;
     
     self._yAxis = 60;
     self._firstTimePing = YES;
@@ -175,8 +115,9 @@
     __toolBar = [[UIView alloc] initWithFrame:CGRectMake(0,sHeight-toolBarHeight,sWidth,toolBarHeight)];
     __toolBar.backgroundColor = HOME_VIEW_TOOL_BAR_COLOR;
     
-    __query = [[UITextField alloc] initWithFrame:CGRectMake(5,5,sWidth-100,40)];
+    __query = [[UITextField alloc] initWithFrame:CGRectMake(40,5,sWidth-100,40)];
     __query.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Ask a question?" attributes:@{NSForegroundColorAttributeName:[UIColor grayColor]}];
+    __query.layer.sublayerTransform = CATransform3DMakeTranslation(10, 0, 0);
     __query.textAlignment = NSTextAlignmentLeft;
     __query.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     __query.layer.cornerRadius = 0.2;
@@ -189,12 +130,12 @@
     [__toolBar addSubview:__query];
     
     __send = [UIButton buttonWithType:UIButtonTypeSystem];
-    __send.frame = CGRectMake(sWidth-100+10,5,90,40);
-    [__send setBackgroundColor:SIGN_IN_BUTTON_BACKGROUND_COLOR];
+    __send.frame = CGRectMake(sWidth-60,5,60,40);
     [__send setTitle:@"Send" forState:UIControlStateNormal];
-    [__send setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+   [__send setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     __send.titleLabel.font = [UIFont boldSystemFontOfSize:16.0];
     __send.titleLabel.shadowColor = [UIColor blueColor];
+    __send.titleLabel.textAlignment = NSTextAlignmentCenter;
     [__send addTarget:self action:@selector(send:) forControlEvents:UIControlEventTouchUpInside];
     [__toolBar addSubview:__send];
     
@@ -244,4 +185,14 @@
         self._chatView.frame = CGRectMake(0,70,sWidth,sHeight-50);
     }];
 }
+// placeholder position
+- (CGRect)textRectForBounds:(CGRect)bounds {
+    return CGRectInset( bounds , 10 , 10 );
+}
+
+// text position
+- (CGRect)editingRectForBounds:(CGRect)bounds {
+    return CGRectInset( bounds , 10 , 10 );
+}
+
 @end

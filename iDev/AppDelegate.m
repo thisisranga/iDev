@@ -44,7 +44,7 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
     MenuViewController *_menuViewController = [[MenuViewController alloc] init];
-    _menuViewController._profileInfo = userInfo;
+    _menuViewController._userName = userInfo;
     HomeViewController *_homeViewController = [[HomeViewController alloc] init];
     UINavigationController *frontNavigationController = [[UINavigationController alloc] initWithRootViewController:_homeViewController];
     frontNavigationController.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
@@ -202,5 +202,35 @@
         }
     }
 }
-
+//Parse message object = <MessageDB: 0x170121ea0, objectId: v5D5spV6QT, localId: (null)> {
+//    message = Hi;
+//    receipientId = rnallave;
+//    senderId = sdudipala;
+//    timeStamp = "1428626781.249151";
+//}
+//2015-04-09 20:46:24.846 iDev[20957:4855365] notification = Hi
+//2015-04-09 20:46:24.850 iDev[20957:4855365] elements of an array = Hi
+//2015-04-09 20:46:57.633 iDev[20957:4855365] Successfully retrieved 3 messages.
+//2015-04-09 20:46:57.633 iDev[20957:4855365] Parse message object = <MessageDB: 0x174121d60, objectId: cSnSLAmKYi, localId: (null)> {
+//    message = "Hello my dear RANGA";
+//    receipientId = rnallave;
+//    senderId = sdudipala;
+//    timeStamp = "1428626798.231614";
+//}
+//2015-04-09 20:46:57.634 iDev[20957:4855365] notification = Hello my dear RANGA
+//2015-04-09 20:46:57.636 iDev[20957:4855365] elements of an array = Hello my dear RANGA
+//2015-04-09 20:46:57.638 iDev[20957:4855365] Parse message object = <MessageDB: 0x174121cc0, objectId: nBiXCRFp6w, localId: (null)> {
+//    message = Luu;
+//    receipientId = rnallave;
+//    senderId = sdudipala;
+//    timeStamp = "1428626805.36596";
+//}
+//2015-04-09 20:46:57.638 iDev[20957:4855365] notification = Luu
+//2015-04-09 20:46:57.639 iDev[20957:4855365] elements of an array = Luu
+//2015-04-09 20:46:57.641 iDev[20957:4855365] Parse message object = <MessageDB: 0x174122080, objectId: leZ2DS3eAR, localId: (null)> {
+//    message = "Gud mrg";
+//    receipientId = rnallave;
+//    senderId = sdudipala;
+//    timeStamp = "1428626814.083751";
+//}
 @end

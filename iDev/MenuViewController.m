@@ -7,6 +7,8 @@
 //
 
 #import "MenuViewController.h"
+#import "SWRevealViewController.h"
+#import "ChatViewController.h"
 #import <Parse/Parse.h>
 #import "iDev.h"
 @interface MenuViewController ()
@@ -18,7 +20,7 @@
 - (void)retrieveMembersFromParse {
     PFQuery *userQuery = [PFUser query];
     [userQuery orderByAscending:@"username"];
-    [userQuery whereKey:@"username" notEqualTo:self._profileInfo];
+    [userQuery whereKey:@"username" notEqualTo:self._userName];
     [userQuery findObjectsInBackgroundWithBlock:^(NSArray *users, NSError *error) {
         NSArray *userArray = [users mutableCopy];
         self.usersList = userArray;
@@ -132,7 +134,7 @@
                 _profileImage.image = [UIImage imageNamed:@"profile.png"];
                 [cell.contentView addSubview:_profileImage];
                 UILabel *_userName = [[UILabel alloc] initWithFrame:CGRectMake(10,125,200,20)];
-                _userName.text = self._profileInfo;
+                _userName.text = self._userName;
                 _userName.textAlignment = NSTextAlignmentLeft;
                 _userName.textColor = [UIColor blackColor];
                 [cell.contentView addSubview:_userName];
@@ -149,49 +151,20 @@
     
     return cell;
 }
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (indexPath.section ==1) {
+        // Grab a handle to the reveal controller, as if you'd do with a navigtion controller via self.navigationController.
+        SWRevealViewController *revealController = self.revealViewController;
+        [self.revealViewController revealToggleAnimated:YES];
+        ChatViewController *chatView = [[ChatViewController alloc] init];
+        chatView._userName = self._userName;
+        chatView._chatMateUserName = [[self.usersList objectAtIndex:indexPath.row] objectForKey:@"username"];
+        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:chatView];
+        [revealController setFrontViewController:navigationController animated:YES];
+ }
+    
 }
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

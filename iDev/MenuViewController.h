@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface MenuViewController : UITableViewController
-@property(nonatomic, retain) NSString *_profileInfo;
+@property(nonatomic, retain) NSString *_userName;
 @end

@@ -81,10 +81,10 @@
     [self._errorContainerView addSubview:error];
     return self._errorContainerView;
 }
--(void)welcomeToiDev:(NSString*)userInfo {
+-(void)welcomeToiDev:(NSString*)userName {
     [self.view endEditing:YES];
     MenuViewController *_menuViewController = [[MenuViewController alloc] init];
-    _menuViewController._profileInfo = userInfo;
+    _menuViewController._userName = userName;
     HomeViewController *_homeViewController = [[HomeViewController alloc] init];
     UINavigationController *frontNavigationController = [[UINavigationController alloc] initWithRootViewController:_homeViewController];
     frontNavigationController.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
