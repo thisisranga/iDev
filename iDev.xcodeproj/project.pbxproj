@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AAE4D8211B7633CF003B63FF /* firebird-logo-48.png in Resources */ = {isa = PBXBuildFile; fileRef = AAE4D8201B7633CF003B63FF /* firebird-logo-48.png */; };
+		AAE4D8241B764B93003B63FF /* instant_messaging.png in Resources */ = {isa = PBXBuildFile; fileRef = AAE4D8221B764B93003B63FF /* instant_messaging.png */; };
+		AAE4D8251B764B93003B63FF /* sharing_ideas.png in Resources */ = {isa = PBXBuildFile; fileRef = AAE4D8231B764B93003B63FF /* sharing_ideas.png */; };
+		AAE4D8271B764D70003B63FF /* Networking.png in Resources */ = {isa = PBXBuildFile; fileRef = AAE4D8261B764D70003B63FF /* Networking.png */; };
 		AAEE7EC01B752FE60034F54B /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAEE7EBA1B752FE60034F54B /* Bolts.framework */; };
 		AAEE7EC11B752FE60034F54B /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAEE7EBB1B752FE60034F54B /* Parse.framework */; };
 		AAEE7EC21B752FE60034F54B /* ParseCrashReporting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAEE7EBC1B752FE60034F54B /* ParseCrashReporting.framework */; };
@@ -65,6 +69,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AAE4D8201B7633CF003B63FF /* firebird-logo-48.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "firebird-logo-48.png"; path = "Resources/firebird-logo-48.png"; sourceTree = "<group>"; };
+		AAE4D8221B764B93003B63FF /* instant_messaging.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = instant_messaging.png; path = Resources/instant_messaging.png; sourceTree = "<group>"; };
+		AAE4D8231B764B93003B63FF /* sharing_ideas.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sharing_ideas.png; path = Resources/sharing_ideas.png; sourceTree = "<group>"; };
+		AAE4D8261B764D70003B63FF /* Networking.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Networking.png; path = Resources/Networking.png; sourceTree = "<group>"; };
 		AAEE7EBA1B752FE60034F54B /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		AAEE7EBB1B752FE60034F54B /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		AAEE7EBC1B752FE60034F54B /* ParseCrashReporting.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseCrashReporting.framework; sourceTree = "<group>"; };
@@ -299,6 +307,10 @@
 		E05CFA2D1AA564590067F77A /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				AAE4D8261B764D70003B63FF /* Networking.png */,
+				AAE4D8221B764B93003B63FF /* instant_messaging.png */,
+				AAE4D8231B764B93003B63FF /* sharing_ideas.png */,
+				AAE4D8201B7633CF003B63FF /* firebird-logo-48.png */,
 				E03AB0CF1AAA27930098EBBC /* reveal-icon.png */,
 				E03AB0D01AAA27930098EBBC /* reveal-icon@2x.png */,
 				E00EF3301AA96758008BFCE4 /* Networking.jpg */,
@@ -405,13 +417,17 @@
 				E0084D891AD735570012736E /* balloon_read_left.png in Resources */,
 				E0084D8A1AD735570012736E /* balloon_read_right.png in Resources */,
 				E0084D8C1AD735570012736E /* balloon_selected_right.png in Resources */,
+				AAE4D8241B764B93003B63FF /* instant_messaging.png in Resources */,
 				E05CFA181AA561EA0067F77A /* LaunchScreen.xib in Resources */,
 				E03AB0D21AAA27930098EBBC /* reveal-icon@2x.png in Resources */,
 				E05CFA151AA561EA0067F77A /* Images.xcassets in Resources */,
 				E0084D8D1AD735570012736E /* balloon_unread_left.png in Resources */,
 				E0084D8B1AD735570012736E /* balloon_selected_left.png in Resources */,
 				E03AB0D11AAA27930098EBBC /* reveal-icon.png in Resources */,
+				AAE4D8211B7633CF003B63FF /* firebird-logo-48.png in Resources */,
 				E00EF3311AA96758008BFCE4 /* Networking.jpg in Resources */,
+				AAE4D8271B764D70003B63FF /* Networking.png in Resources */,
+				AAE4D8251B764B93003B63FF /* sharing_ideas.png in Resources */,
 				E0084D8E1AD735570012736E /* balloon_unread_right.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
