@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AA3007BF1B7FF6890019982F /* MessagesDB.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3007BE1B7FF6890019982F /* MessagesDB.m */; };
 		AAE4D8211B7633CF003B63FF /* firebird-logo-48.png in Resources */ = {isa = PBXBuildFile; fileRef = AAE4D8201B7633CF003B63FF /* firebird-logo-48.png */; };
 		AAE4D8241B764B93003B63FF /* instant_messaging.png in Resources */ = {isa = PBXBuildFile; fileRef = AAE4D8221B764B93003B63FF /* instant_messaging.png */; };
 		AAE4D8251B764B93003B63FF /* sharing_ideas.png in Resources */ = {isa = PBXBuildFile; fileRef = AAE4D8231B764B93003B63FF /* sharing_ideas.png */; };
@@ -69,6 +70,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AA3007BD1B7FF6890019982F /* MessagesDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessagesDB.h; sourceTree = "<group>"; };
+		AA3007BE1B7FF6890019982F /* MessagesDB.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessagesDB.m; sourceTree = "<group>"; };
 		AAE4D8201B7633CF003B63FF /* firebird-logo-48.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "firebird-logo-48.png"; path = "Resources/firebird-logo-48.png"; sourceTree = "<group>"; };
 		AAE4D8221B764B93003B63FF /* instant_messaging.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = instant_messaging.png; path = Resources/instant_messaging.png; sourceTree = "<group>"; };
 		AAE4D8231B764B93003B63FF /* sharing_ideas.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sharing_ideas.png; path = Resources/sharing_ideas.png; sourceTree = "<group>"; };
@@ -264,6 +267,8 @@
 				E04C365D1AAA016F00339484 /* MenuViewController.m */,
 				E0F4567F1ACE2F7200710231 /* ChatViewController.h */,
 				E0F456801ACE2F7200710231 /* ChatViewController.m */,
+				AA3007BD1B7FF6890019982F /* MessagesDB.h */,
+				AA3007BE1B7FF6890019982F /* MessagesDB.m */,
 				E0B7651D1AD61BAC00A39176 /* ChatViewCell */,
 				E05CFA111AA561EA0067F77A /* Main.storyboard */,
 				E05CFA141AA561EA0067F77A /* Images.xcassets */,
@@ -459,6 +464,7 @@
 				E0084D8F1AD735570012736E /* PTSMessagingCell.m in Sources */,
 				E0CE77AD1AA69E3600F74A0C /* SignUpHandler.m in Sources */,
 				E05CFA071AA561EA0067F77A /* main.m in Sources */,
+				AA3007BF1B7FF6890019982F /* MessagesDB.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
