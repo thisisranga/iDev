@@ -18,6 +18,8 @@
 
 @implementation AppDelegate
 
+/* This method will refresh the User status */
+
 - (void)refreshUserStatus:(NSString*)username {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     PFQuery *query = [PFQuery queryWithClassName:@"MessageDB"];
